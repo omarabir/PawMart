@@ -3,9 +3,19 @@ import { BiMoon } from "react-icons/bi";
 import { PiSun } from "react-icons/pi";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../Context/AuthContext";
+import toast from "daisyui/components/toast";
 
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, signOutUser } = useContext(AuthContext);
+  const handleLogout = () => {
+    signOutUser()
+      .then(() => {
+        toast.success("User logged out successfully!");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
   const navLinks = (
     <>
       <li>
@@ -137,8 +147,14 @@ const Navbar = () => {
               <li className="p-2 font-semibold">
                 {user.displayName || "Profile"}
               </li>
-              <li>
-                <button className="btn btn-ghost justify-start">Logout</button>
+              <li className="p-2 ">{user.email}</li>
+              <li className="text-center">
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-primary justify-start "
+                >
+                  Logout
+                </button>
               </li>
             </ul>
           </div>
