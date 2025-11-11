@@ -5,17 +5,17 @@ import { Link, NavLink } from "react-router";
 const Navbar = () => {
   const navLinks = (
     <>
-      {" "}
+      
       <li>
-        {" "}
+        
         <NavLink
           to="/"
           className={({ isActive }) => (isActive ? "active" : "")}
         >
-          {" "}
-          Home{" "}
-        </NavLink>{" "}
-      </li>{" "}
+          
+          Home
+        </NavLink>
+      </li>
       <li>
         {" "}
         <NavLink
@@ -57,48 +57,47 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow bg-base-100 rounded-box w-52"
           >
-            {" "}
+         
             {navLinks}{" "}
           </ul>{" "}
-        </div>{" "}
+        </div>
         <Link
           to="/"
           className="btn btn-ghost normal-case text-xl font-bold text-primary"
         >
-          {" "}
-          <h1 className="">PawMart</h1>{" "}
-        </Link>{" "}
-      </div>{" "}
+        
+          <h1 className="">PawMart</h1>
+        </Link>
+      </div>
       <div className="navbar-center hidden lg:flex">
-        {" "}
-        <ul className="menu menu-horizontal px-1">{navLinks}</ul>{" "}
-      </div>{" "}
+   
+        <ul className="menu menu-horizontal px-1">{navLinks}</ul>
+      </div>
       <div className="navbar-end gap-2">
-        {" "}
+     
         <label className="swap swap-rotate btn btn-ghost btn-circle">
-          {" "}
+        
           <input type="checkbox" />{" "}
-          <PiSun className="swap-on fill-current w-5 h-5" />{" "}
-          <BiMoon className="swap-off fill-current w-5 h-5" />{" "}
-        </label>{" "}
+          <PiSun className="swap-on fill-current w-5 h-5" />
+          <BiMoon className="swap-off fill-current w-5 h-5" />
+        </label>
         <>
-          {" "}
+      
           <Link
             to="/login"
             className="btn btn-outline btn-primary hidden sm:inline-flex"
           >
-            {" "}
-            Login{" "}
-          </Link>{" "}
+         
+            Login
+          </Link>
           <Link
             to="/register"
             className="btn btn-primary hidden sm:inline-flex"
           >
-            {" "}
-            Register{" "}
-          </Link>{" "}
-        </>{" "}
-      </div>{" "}
+            Register
+          </Link>
+        </>
+      </div>
     </div>
   );
 };
