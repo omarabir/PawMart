@@ -5,12 +5,29 @@ import toast from "react-hot-toast";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
+  const validatePassword = (password) => {
+    if (!/[A-Z]/.test(password)) {
+      return "Password must contain at least 1 uppercase letter.";
+    }
+    if (!/[a-z]/.test(password)) {
+      return "Password must contain at least 1 lowercase letter.";
+    }
+    if (password.length < 6) {
+      return "Password must be at least 6 characters long.";
+    }
+    return null;
+  };
   const handleRegister = (e) => {
     e.preventDefault();
     const displayName = e.target.displayName.value;
     const photoURL = e.target.photoURL.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      toast.error(passwordError);
+      return;
+    }
     createUser(email, password)
       .then((result) => {
         toast.success("User created successfully!");
