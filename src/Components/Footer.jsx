@@ -1,6 +1,6 @@
-import { Facebook } from "lucide";
+
 import React from "react";
-import { BsInstagram, BsYoutube } from "react-icons/bs";
+import {  BsYoutube } from "react-icons/bs";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router";
 
