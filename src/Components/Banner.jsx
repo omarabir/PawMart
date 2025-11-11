@@ -22,6 +22,7 @@ const Banner = () => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  // Auto slide every 4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -29,6 +30,7 @@ const Banner = () => {
     return () => clearInterval(interval);
   }, [slides.length]);
 
+  // Variants
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },
     visible: (delay = 0) => ({
@@ -38,22 +40,45 @@ const Banner = () => {
     }),
   };
 
+  const handleSwipe = (direction) => {
+    if (direction === "left") {
+      setCurrentSlide((currentSlide + 1) % slides.length);
+    } else if (direction === "right") {
+      setCurrentSlide(
+        currentSlide === 0 ? slides.length - 1 : currentSlide - 1
+      );
+    }
+  };
+
   return (
-    <div className="relative w-full h-96 overflow-hidden rounded-2xl shadow-lg ">
+    <div className="relative w-full h-96 overflow-hidden rounded-2xl shadow-lg">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 w-full h-full cursor-grab"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
+          whileHover={{ scale: 1.03 }}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.2}
+          onDragEnd={(e, info) => {
+            if (info.offset.x < -50) handleSwipe("left");
+            else if (info.offset.x > 50) handleSwipe("right");
+          }}
         >
-          <img
+          <motion.img
             src={slides[currentSlide].image}
+            alt={`Banner ${currentSlide + 1}`}
             className="w-full h-full object-cover"
+            initial={{ scale: 1 }}
+            animate={{ scale: 1.1 }}
+            transition={{ duration: 4, ease: "easeInOut" }}
           />
 
+          {/* Overlay */}
           <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center text-white p-4">
             <motion.h1
               variants={fadeUp}
@@ -79,6 +104,7 @@ const Banner = () => {
         </motion.div>
       </AnimatePresence>
 
+      {/* Navigation buttons */}
       <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
         <button
           className="btn btn-circle"
