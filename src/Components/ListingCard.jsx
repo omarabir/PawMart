@@ -10,7 +10,7 @@ const ListingCard = ({ listing }) => {
 
   return (
     <motion.div
-      className="card bg-base-100 shadow-xl h-full"
+      className="card bg-[#ffd1cd] dark:text-black w-80 shadow-xl h-full"
       variants={cardVariants}
       initial="hidden"
       whileInView="visible"
@@ -20,16 +20,16 @@ const ListingCard = ({ listing }) => {
         <img
           src={listing.image}
           alt={listing.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full "
         />
       </figure>
       <div className="card-body">
         <h2 className="card-title truncate">{listing.name}</h2>
-        <div className="badge badge-secondary">{listing.category}</div>
+        <div className="badge bg-[#f86255] text-white">{listing.category}</div>
         <p>
           <strong>Location:</strong> {listing.location}
         </p>
-        <p className="font-semibold text-lg text-primary">
+        <p className="font-semibold text-lg text-emerald-400">
           {listing.category === "Pets" && listing.price === 0
             ? "Free for Adoption"
             : `$${listing.price}`}
@@ -37,7 +37,7 @@ const ListingCard = ({ listing }) => {
         <div className="card-actions justify-end">
           <Link
             to={`/listing-details/${listing._id}`}
-            className="btn btn-primary"
+            className="btn bg-[#FE7F73] text-white"
           >
             See Details
           </Link>

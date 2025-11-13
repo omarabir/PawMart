@@ -14,7 +14,6 @@ const PetSupplies = () => {
 
   const categories = [...new Set(listings.map((listing) => listing.category))];
 
-  // Filter listings based on category and search term
   const filteredListings = listings.filter((listing) => {
     const matchesCategory =
       selectedCategory === "All" || listing.category === selectedCategory;
@@ -72,7 +71,7 @@ const PetSupplies = () => {
           <p className="text-xl text-gray-500">No listings found.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-8">
           {filteredListings.map((listing) => (
             <ListingCard key={listing._id} listing={listing} />
           ))}

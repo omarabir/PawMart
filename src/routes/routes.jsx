@@ -9,11 +9,14 @@ import PrivateRoute from "./PrivateRoute";
 import MyListings from "../Pages/MyListing";
 import ListingDetails from "../Pages/ListingDetails";
 import MyOrders from "../Pages/MyOrders";
+import CategoryFilteredProduct from "../Pages/CategoryFilteredProduct";
+import ErrorPage from "../Pages/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         index: true,
@@ -21,12 +24,14 @@ export const router = createBrowserRouter([
       },
       {
         path: "/pets-and-supplies",
-        loader: () => fetch("http://localhost:3000/listings"),
+        loader: () =>
+          fetch("https://pawmart-server-weld-nu.vercel.app/listings"),
         element: <PetSupplies></PetSupplies>,
       },
       {
         path: "/add-listing",
-        loader: () => fetch("http://localhost:3000/listings"),
+        loader: () =>
+          fetch("https://pawmart-server-weld-nu.vercel.app/listings"),
         element: (
           <PrivateRoute>
             <AddListing></AddListing>
@@ -41,7 +46,9 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/listings/${params.id}`),
+          fetch(
+            `https://pawmart-server-weld-nu.vercel.app/listings/${params.id}`
+          ),
       },
       {
         path: "/my-listings",
@@ -50,7 +57,16 @@ export const router = createBrowserRouter([
             <MyListings></MyListings>
           </PrivateRoute>
         ),
-        loader: () => fetch("http://localhost:3000/listings"),
+        loader: () =>
+          fetch("https://pawmart-server-weld-nu.vercel.app/listings"),
+      },
+      {
+        path: "//category-filtered-product/:categoryName",
+        element: <CategoryFilteredProduct></CategoryFilteredProduct>,
+        loader: ({ params }) =>
+          fetch(
+            `https://pawmart-server-weld-nu.vercel.app/listings?category=${params.categoryName}`
+          ),
       },
       {
         path: "/my-orders",

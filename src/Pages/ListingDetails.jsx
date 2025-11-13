@@ -28,13 +28,16 @@ const ListingDetails = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      });
+      const res = await fetch(
+        "https://pawmart-server-weld-nu.vercel.app/orders",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
 
       const data = await res.json();
 
@@ -64,12 +67,14 @@ const ListingDetails = () => {
 
         <div className="card-body lg:w-1/2">
           <h1 className="card-title text-4xl font-bold">{listing.name}</h1>
-          <span className="badge badge-primary my-2">{listing.category}</span>
+          <span className="badge bg-[#f86255] text-white my-2">
+            {listing.category}
+          </span>
           <p className="text-lg">{listing.description}</p>
           <div className="divider"></div>
           <p>
-            <strong>Price:</strong>{" "}
-            <span className="text-xl font-semibold text-primary">
+            <strong>Price: </strong>
+            <span className="text-xl font-semibold text-emerald-400">
               {listing.category === "Pets" && listing.price === 0
                 ? "Free for Adoption"
                 : `$${listing.price}`}
@@ -88,7 +93,7 @@ const ListingDetails = () => {
 
           <div className="card-actions justify-end mt-4">
             <button
-              className="btn btn-primary btn-wide"
+              className="btn bg-[#FE7F73] text-white btn-wide"
               onClick={() => setShowModal(true)}
             >
               {listing.category === "Pets" ? "Adopt Now" : "Order Now"}
@@ -98,8 +103,14 @@ const ListingDetails = () => {
       </div>
 
       {showModal && (
-        <div className=" fixed inset-0 bg-black/40 flex items-center justify-center z-50 ">
-          <div className="bg-white rounded-xl shadow-lg w-full max-w-lg p-6  relative">
+        <div
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+          onClick={() => setShowModal(false)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-lg w-full max-w-lg p-6 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
@@ -227,7 +238,7 @@ const ListingDetails = () => {
               </div>
 
               <div className="flex justify-end mt-4">
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn bg-[#FE7F73] text-white ">
                   Submit
                 </button>
               </div>

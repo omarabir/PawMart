@@ -1,9 +1,10 @@
 import React from "react";
+import { ClipLoader } from "react-spinners";
 
 const Spinner = () => {
   return (
     <div className="flex justify-center items-center h-full">
-      <span className="loading loading-spinner loading-lg text-primary"></span>
+      <ClipLoader size={50} />
     </div>
   );
 };

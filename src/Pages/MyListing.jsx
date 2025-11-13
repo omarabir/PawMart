@@ -1,15 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import { ClipLoader } from "react-spinners";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
-const categoryOptions = [
-  "Accessories",
-  "Foods",
-  "Care Products",
-  "Pets",
-];
+const categoryOptions = ["Accessories", "Foods", "Care Products", "Pets"];
 
 const MyListings = () => {
   const { user } = useContext(AuthContext);
@@ -22,7 +17,7 @@ const MyListings = () => {
     try {
       setLoader(true);
       const res = await fetch(
-        `http://localhost:3000/my-listings?email=${user?.email}`
+        `https://pawmart-server-weld-nu.vercel.app/my-listings?email=${user?.email}`
       );
       const data = await res.json();
       setMyListings(data);
@@ -51,7 +46,7 @@ const MyListings = () => {
   const handleSaveChanges = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/listings/${editingListing._id}`,
+        `https://pawmart-server-weld-nu.vercel.app/listings/${editingListing._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -88,9 +83,12 @@ const MyListings = () => {
     if (!result.isConfirmed) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/listings/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://pawmart-server-weld-nu.vercel.app/listings/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       const data = await res.json();
 
       if (data.deletedCount > 0) {
@@ -117,9 +115,9 @@ const MyListings = () => {
         <p className="text-center text-gray-500">No listings found.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full text-sm md:text-base border border-gray-300">
+          <table className="min-w-full text-sm  md:text-base border border-gray-300">
             <thead className="bg-gray-100">
-              <tr>
+              <tr className="dark:text-black">
                 <th className=" px-4 py-2">Name</th>
                 <th className=" px-4 py-2">Category</th>
                 <th className=" px-4 py-2">Price</th>

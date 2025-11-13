@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import { useLoaderData } from "react-router";
 import toast from "react-hot-toast";
@@ -10,19 +10,31 @@ const AddListing = () => {
   const listings = Array.isArray(listingData) ? listingData : [];
   const categories = [...new Set(listings.map((listing) => listing.category))];
 
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [price, setPrice] = useState("");
+
+  // Automatically set price to 0 if category is "Pets"
+  useEffect(() => {
+    if (selectedCategory === "Pets") {
+      setPrice(0);
+    } else {
+      setPrice(""); // reset for other categories
+    }
+  }, [selectedCategory]);
+
   const handleAddListing = (event) => {
     event.preventDefault();
     const formdata = {
       name: event.target.name.value,
-      category: event.target.category.value,
-      price: event.target.price.value,
+      category: selectedCategory,
+      price: selectedCategory === "Pets" ? 0 : event.target.price.value,
       location: event.target.location.value,
       image: event.target.image.value,
       description: event.target.description.value,
       date: event.target.date.value,
       email: user.email,
     };
-    fetch("http://localhost:3000/listings", {
+    fetch("https://pawmart-server-weld-nu.vercel.app/listings", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -33,11 +45,14 @@ const AddListing = () => {
       .then((data) => {
         toast.success("Listing added successfully!");
         event.target.reset();
+        setSelectedCategory("All Categories");
+        setPrice("");
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold text-center mb-8">Add a New Listing</h1>
@@ -60,7 +75,12 @@ const AddListing = () => {
               <label className="label">
                 <span className="label-text">Category</span>
               </label>
-              <select name="category" className="select select-bordered">
+              <select
+                name="category"
+                className="select select-bordered"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
                 <option value="All Categories">All Categories</option>
                 {categories.map((category) => (
                   <option key={category} value={category}>
@@ -78,6 +98,9 @@ const AddListing = () => {
                 name="price"
                 className="input input-bordered"
                 required
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                readOnly={selectedCategory === "Pets"} // read-only if Pets
               />
             </div>
           </div>
@@ -144,7 +167,10 @@ const AddListing = () => {
           </div>
 
           <div className="form-control mt-6">
-            <button className="btn btn-primary" type="submit">
+            <button
+              className="btn bg-[#FE7F73] w-full text-white"
+              type="submit"
+            >
               {loading ? (
                 <span className="loading loading-spinner"></span>
               ) : (

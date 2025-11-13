@@ -1,15 +1,15 @@
-
 import React from "react";
-import {  BsYoutube } from "react-icons/bs";
+import { BsYoutube } from "react-icons/bs";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { SiX } from "react-icons/si"; // Official X logo
 import { Link } from "react-router";
 
 const Footer = () => {
   return (
-    <footer className="bg-base-200 text-base-content py-12 px-10 mt-10 ">
+    <footer className="bg-[#fcb2ab] dark:text-black text-base-content py-12 px-10 mt-10">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         <aside className="space-y-4">
-          <p className="text-2xl font-bold text-primary">PawMart</p>
+          <p className="text-2xl font-bold text-[#FE7F73]">PawMart</p>
           <p className="text-sm leading-relaxed">
             PawMart connects local pet owners and buyers for adoption and pet
             care products.
@@ -38,14 +38,18 @@ const Footer = () => {
           <h6 className="font-semibold text-lg">Social</h6>
           <div className="flex gap-4 items-center">
             <a className="hover:text-primary transition-colors">
-              <FaFacebook size={20}></FaFacebook>
+              <FaFacebook size={20} />
             </a>
             <a className="hover:text-primary transition-colors">
-              <BsYoutube size={20}></BsYoutube>
+              <BsYoutube size={20} />
             </a>
             <a className="hover:text-primary transition-colors">
-              <FaInstagram size={20}></FaInstagram>
+              <FaInstagram size={20} />
             </a>
+            <a className="hover:text-primary transition-colors">
+              <SiX size={20} />
+            </a>{" "}
+            {/* Official X logo */}
           </div>
         </nav>
       </div>

@@ -9,7 +9,6 @@ const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
   const handleDownloadReport = () => {
     if (orders.length === 0) {
       alert("No orders to generate report!");
@@ -19,14 +18,12 @@ const MyOrders = () => {
     const doc = new jsPDF("p", "pt", "a4");
     const pageWidth = doc.internal.pageSize.getWidth();
 
-  
     doc.setFontSize(20);
     doc.setFont("helvetica", "bold");
     const title = "My Orders Report";
     const textWidth = doc.getTextWidth(title);
     doc.text(title, (pageWidth - textWidth) / 2, 40);
 
-    // Table columns
     const tableColumn = [
       "Product Name",
       "Buyer Name",
@@ -37,7 +34,6 @@ const MyOrders = () => {
       "Phone",
     ];
 
-  
     const tableRows = orders.map((order) => [
       order.productName,
       order.buyerName,
@@ -54,7 +50,7 @@ const MyOrders = () => {
       startY: 60,
       theme: "grid",
       headStyles: {
-        fillColor: [128, 90, 213], 
+        fillColor: [128, 90, 213],
         textColor: 255,
         fontStyle: "bold",
         halign: "center",
@@ -76,7 +72,7 @@ const MyOrders = () => {
     const fetchOrders = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/orders?email=${user.email}`
+          `https://pawmart-server-weld-nu.vercel.app/orders?email=${user.email}`
         );
         const data = await res.json();
         setOrders(data);
@@ -111,83 +107,46 @@ const MyOrders = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl font-bold text-purple-600">My Orders</h1>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <h1 className="text-2xl md:text-3xl font-bold text-black">My Orders</h1>
         <button
           onClick={handleDownloadReport}
-          className="btn bg-green-500 hover:bg-green-600 text-white rounded-lg"
+          className="btn bg-green-500 hover:bg-green-600 text-white rounded w-full md:w-auto"
         >
           Download Report
         </button>
       </div>
 
-
-      <div className="hidden md:block overflow-x-auto">
-        <table className="table w-full border border-gray-200">
+      {/* Table for all screen sizes */}
+      <div className="overflow-x-auto border border-gray-300 rounded-lg shadow">
+        <table className="min-w-full text-sm md:text-base border-collapse">
           <thead className="bg-purple-100 text-gray-700">
             <tr>
-              <th className="py-3 px-4 text-left">Product</th>
-              <th className="py-3 px-4 text-left">Buyer</th>
-              <th className="py-3 px-4 text-left">Price</th>
-              <th className="py-3 px-4 text-left">Quantity</th>
-              <th className="py-3 px-4 text-left">Address</th>
-              <th className="py-3 px-4 text-left">Date</th>
-              <th className="py-3 px-4 text-left">Phone</th>
+              <th className="px-4 py-2 text-left">Product</th>
+              <th className="px-4 py-2 text-left">Buyer</th>
+              <th className="px-4 py-2 text-left">Price</th>
+              <th className="px-4 py-2 text-left">Quantity</th>
+              <th className="px-4 py-2 text-left">Address</th>
+              <th className="px-4 py-2 text-left">Date</th>
+              <th className="px-4 py-2 text-left">Phone</th>
             </tr>
           </thead>
           <tbody>
             {orders.map((order, idx) => (
-              <tr
-                key={order._id}
-                className={`hover:bg-gray-50 ${
-                  idx % 2 === 0 ? "bg-gray-50" : ""
-                } transition-colors duration-200`}
-              >
-                <td className="py-3 px-4">{order.productName}</td>
-                <td className="py-3 px-4">{order.buyerName}</td>
-                <td className="py-3 px-4">{order.price}</td>
-                <td className="py-3 px-4">{order.quantity}</td>
-                <td className="py-3 px-4">{order.address}</td>
-                <td className="py-3 px-4">
+              <tr key={order._id} className={idx % 2 !== 0 ? "" : ""}>
+                <td className="px-4 py-2">{order.productName}</td>
+                <td className="px-4 py-2">{order.buyerName}</td>
+                <td className="px-4 py-2">{order.price}</td>
+                <td className="px-4 py-2">{order.quantity}</td>
+                <td className="px-4 py-2">{order.address}</td>
+                <td className="px-4 py-2">
                   {new Date(order.date).toLocaleDateString()}
                 </td>
-                <td className="py-3 px-4">{order.phone}</td>
+                <td className="px-4 py-2">{order.phone}</td>
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
-
-      <div className="md:hidden space-y-4">
-        {orders.map((order) => (
-          <div
-            key={order._id}
-            className="bg-white shadow-md rounded-lg p-4 border border-gray-100"
-          >
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">
-              {order.productName}
-            </h2>
-            <p>
-              <span className="font-semibold">Buyer:</span> {order.buyerName}
-            </p>
-            <p>
-              <span className="font-semibold">Price:</span> {order.price}
-            </p>
-            <p>
-              <span className="font-semibold">Quantity:</span> {order.quantity}
-            </p>
-            <p>
-              <span className="font-semibold">Address:</span> {order.address}
-            </p>
-            <p>
-              <span className="font-semibold">Date:</span>{" "}
-              {new Date(order.date).toLocaleDateString()}
-            </p>
-            <p>
-              <span className="font-semibold">Phone:</span> {order.phone}
-            </p>
-          </div>
-        ))}
       </div>
     </div>
   );
