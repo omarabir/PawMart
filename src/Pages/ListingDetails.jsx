@@ -8,6 +8,20 @@ const ListingDetails = () => {
   const { user } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
 
+  // নতুন state for dynamic quantity & total price
+  const [quantity, setQuantity] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(listing.price);
+
+  const handleQuantityChange = (e) => {
+    const qty = parseInt(e.target.value);
+    setQuantity(qty);
+
+    // total price update করো
+    if (listing.category !== "Pets") {
+      setTotalPrice(qty * listing.price);
+    }
+  };
+
   const handleOrder = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -17,8 +31,8 @@ const ListingDetails = () => {
       email: form.email.value,
       productId: form.productId.value,
       productName: form.productName.value,
-      quantity: form.quantity.value,
-      price: form.price.value,
+      quantity: quantity,
+      price: totalPrice,
       address: form.address.value,
       date: form.date.value,
       phone: form.phone.value,
@@ -45,6 +59,8 @@ const ListingDetails = () => {
         toast.success("Your request has been submitted successfully!");
         setShowModal(false);
         form.reset();
+        setQuantity(1);
+        setTotalPrice(listing.price);
       } else {
         alert("Something went wrong, please try again.");
       }
@@ -175,7 +191,8 @@ const ListingDetails = () => {
                     type="number"
                     name="quantity"
                     min="1"
-                    defaultValue={listing.category === "Pets" ? 1 : 1}
+                    value={quantity}
+                    onChange={handleQuantityChange}
                     readOnly={listing.category === "Pets"}
                     className="input input-bordered w-full"
                   />
@@ -185,10 +202,10 @@ const ListingDetails = () => {
                   <input
                     type="text"
                     name="price"
-                    defaultValue={
+                    value={
                       listing.category === "Pets" && listing.price === 0
                         ? "Free"
-                        : `$${listing.price}`
+                        : `$${totalPrice}`
                     }
                     readOnly
                     className="input input-bordered w-full bg-gray-100"
