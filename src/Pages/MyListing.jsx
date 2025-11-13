@@ -5,7 +5,6 @@ import toast, { Toaster } from "react-hot-toast";
 import Swal from "sweetalert2";
 
 const categoryOptions = [
-  "All Categories",
   "Accessories",
   "Foods",
   "Care Products",
